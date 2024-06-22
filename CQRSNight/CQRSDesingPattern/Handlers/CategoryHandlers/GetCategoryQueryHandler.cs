@@ -11,7 +11,7 @@ namespace CQRSNight.CQRSDesingPattern.Handlers.CategoryHandlers
         {
             _context = context;
         }
-       public List<GetCategoryQueryResult> Handle()
+       public List<GetCategoryQueryResult> Handle(Queries.CategoryQueries.GetCategoryByIdQuery getCategoryByIdQuery)
         {
             var values = _context.Categories.Select(x => new GetCategoryQueryResult
             {
@@ -20,6 +20,11 @@ namespace CQRSNight.CQRSDesingPattern.Handlers.CategoryHandlers
             });
             return values.ToList();
            
+        }
+
+        internal object Handle()
+        {
+            throw new NotImplementedException();
         }
     }
 }

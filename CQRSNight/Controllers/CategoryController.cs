@@ -1,5 +1,6 @@
 ﻿using CQRSNight.CQRSDesingPattern.Commands.CategoryCommands;
 using CQRSNight.CQRSDesingPattern.Handlers.CategoryHandlers;
+using CQRSNight.CQRSDesingPattern.Queries.CategoryQueries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CQRSNight.Controllers
@@ -10,13 +11,15 @@ namespace CQRSNight.Controllers
         private readonly CreateCategoryCommandHandler _createCategoryCommandHandler;
         private readonly RemoveCategoryCommandHandler _removeCategoryCommandHandler;
         private readonly UpdateCategoryCommandHandler _updateCategoryCommandHandler;
+        private readonly GetCategoryByIdQueryHandler _getCategoryByIdQueryHandler;
 
-        public CategoryController(GetCategoryQueryHandler getCategoryQueryHandler, CreateCategoryCommandHandler createCategoryCommandHandler, RemoveCategoryCommandHandler removeCategoryCommandHandler = null, UpdateCategoryCommandHandler updateCategoryCommandHandler = null)
+        public CategoryController(GetCategoryQueryHandler getCategoryQueryHandler, CreateCategoryCommandHandler createCategoryCommandHandler, RemoveCategoryCommandHandler removeCategoryCommandHandler = null, UpdateCategoryCommandHandler updateCategoryCommandHandler = null, GetCategoryByIdQueryHandler getCategoryByIdQueryHandler = null)
         {
             _getCategoryQueryHandler = getCategoryQueryHandler;
             _createCategoryCommandHandler = createCategoryCommandHandler;
             _removeCategoryCommandHandler = removeCategoryCommandHandler;
             _updateCategoryCommandHandler = updateCategoryCommandHandler;
+            _getCategoryByIdQueryHandler = getCategoryByIdQueryHandler;
         }
         public IActionResult CategoryList()
         {
@@ -38,6 +41,18 @@ namespace CQRSNight.Controllers
         public IActionResult RemoveCategory(int id)
         {
             _removeCategoryCommandHandler.Handle(new RemoveCategoryCommand(id));
+            return RedirectToAction("CategoryList");
+        }
+        [HttpGet]
+        public IActionResult UpdateCategory(int id)
+        {
+            var value = _getCategoryQueryHandler.Handle(new GetCategoryByIdQuery(id));
+            return View(value);
+        }
+        [HttpPost]
+        public IActionResult UpdateCategory(UpdateCategoryCommand command)
+        {
+            _updateCategoryCommandHandler.Handle(command);
             return RedirectToAction("CategoryList");
         }
 
