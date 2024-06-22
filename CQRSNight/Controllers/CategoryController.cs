@@ -8,11 +8,15 @@ namespace CQRSNight.Controllers
     {
         private readonly GetCategoryQueryHandler _getCategoryQueryHandler;
         private readonly CreateCategoryCommandHandler _createCategoryCommandHandler;
+        private readonly RemoveCategoryCommandHandler _removeCategoryCommandHandler;
+        private readonly UpdateCategoryCommandHandler _updateCategoryCommandHandler;
 
-        public CategoryController(GetCategoryQueryHandler getCategoryQueryHandler, CreateCategoryCommandHandler createCategoryCommandHandler)
+        public CategoryController(GetCategoryQueryHandler getCategoryQueryHandler, CreateCategoryCommandHandler createCategoryCommandHandler, RemoveCategoryCommandHandler removeCategoryCommandHandler = null, UpdateCategoryCommandHandler updateCategoryCommandHandler = null)
         {
             _getCategoryQueryHandler = getCategoryQueryHandler;
             _createCategoryCommandHandler = createCategoryCommandHandler;
+            _removeCategoryCommandHandler = removeCategoryCommandHandler;
+            _updateCategoryCommandHandler = updateCategoryCommandHandler;
         }
         public IActionResult CategoryList()
         {
@@ -31,5 +35,11 @@ namespace CQRSNight.Controllers
 
             return RedirectToAction("CategoryList");
         }
+        public IActionResult RemoveCategory(int id)
+        {
+            _removeCategoryCommandHandler.Handle(new RemoveCategoryCommand(id));
+            return RedirectToAction("CategoryList");
+        }
+
     }
 }
