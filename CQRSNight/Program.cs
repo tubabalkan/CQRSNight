@@ -1,16 +1,29 @@
+using CQRSNight.CQRSDesingPattern.Commands.ProductCommands;
 using CQRSNight.CQRSDesingPattern.Handlers.CategoryHandlers;
+using CQRSNight.CQRSDesingPattern.Handlers.ProductHandlers;
 using CQRSNight.DAL.Context;
+using CQRSNight.DAL.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddDbContext<CQRSContext>();
+
 builder.Services.AddScoped<GetCategoryQueryHandler>();
 builder.Services.AddScoped<CreateCategoryCommandHandler>();
 builder.Services.AddScoped<RemoveCategoryCommandHandler>();
 builder.Services.AddScoped<UpdateCategoryCommandHandler>();
 builder.Services.AddScoped<GetCategoryByIdQueryHandler>();
+
+builder.Services.AddScoped<GetProductQueryHandler>();
+builder.Services.AddScoped<CreateProductCommandHandler>();
+builder.Services.AddScoped<UpdateProductQueryHandler>();
+builder.Services.AddScoped<RemoveProductQueryHandler>();
+builder.Services.AddScoped<GetProductByIdQueryHandler>();
+builder.Services.AddScoped<UpdateProductCommandHandler>();
+
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

@@ -22,8 +22,7 @@ namespace CQRSNight.CQRSDesingPattern.Handlers.ProductHandlers
                 Description = x.Description,
                 ImageUrl = x.ImageUrl,
                 Price = x.Price,
-                Stock=x.Stock
-
+                Stock = x.Stock
             }).ToList();
             return values;
         }
