@@ -3,6 +3,7 @@ using CQRSNight.CQRSDesingPattern.Handlers.CategoryHandlers;
 using CQRSNight.CQRSDesingPattern.Handlers.ProductHandlers;
 using CQRSNight.DAL.Context;
 using CQRSNight.DAL.Entities;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,8 @@ builder.Services.AddScoped<UpdateProductQueryHandler>();
 builder.Services.AddScoped<RemoveProductQueryHandler>();
 builder.Services.AddScoped<GetProductByIdQueryHandler>();
 builder.Services.AddScoped<UpdateProductCommandHandler>();
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
 
 builder.Services.AddControllersWithViews();
